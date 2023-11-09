@@ -9,35 +9,67 @@
 <title>SpringBoot JSP 게시판</title>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="/js/bootstrap.js"></script>
+<script src="../global/global.js"></script>
 
 <script>
     $(document).ready(function() {
 
-                const accessToken = getCookie('accessToken');
+    const accessToken = localStorage.getItem('accessToken');
 
-
+    function parseGender(gender){
+        if(gender === 'MALE'){
+            return '남자';
+        } else {
+            return '여자';
+        }
+    }
 
                 $.ajax({
                     type: 'GET',
                     url: '/api/member',
                     dataType: 'json',
                     headers: {
-                        'Authorization' : accessToken
+                        'Authorization': accessToken
                     },
                     success: function(data) {
-                        // JSON 데이터를 받아와서 페이지에 출력합니다.
-                        $('#username').text(data.username);
-                        $('#name').text(data.name);
-                        $('#nickname').text(data.nickname);
-                        $('#gender').text(data.gender);
-                        $('#email').text(data.email);
-                    },
+                                $('#username').text(data.username);
+                                $('#name').text(data.name);
+                                $('#nickname').text(data.nickname);
+                                $('#gender').text(parseGender(data.gender));
+                                $('#email').text(data.email);
+                            },
                     error: function() {
-                        console.log(data.username);
+                        console.log(accessToken);
                         alert('회원 정보를 가져오는 데 실패했습니다.');
+                        window.location.href='/member/login';
                     }
                 });
             });
+            
+
+    function deleteMember (){
+
+        const accessToken = localStorage.getItem('accessToken');
+
+        $.ajax({
+                    type: 'DELETE',
+                    url: '/api/member',
+                    dataType: 'json',
+                    headers: {
+                        'Authorization': accessToken
+                    },
+                    success: function(data) {
+                        alert('회원 탈퇴가 완료되었습니다.')
+                        window.location.href='/';
+                        localStorage.removeItem('accessToken');
+                        localStorage.removeItem('accessTokenExpiration');
+                            },
+                    error: function() {
+                        alert('회원 삭제에 실패했습니다.');
+                        window.location.href='/';
+                    }
+                });
+    }
 </script>
 
 </head>
@@ -50,32 +82,30 @@
                     <tbody style="text-align: center">
                         <tr>
                             <td style="background-color: #fafafa; text-align: center;"><h4>아이디</h4></td>
-                            <td> ${username} </td>
+                            <td id="username"></td>
                         </tr>
                         <tr>
                             <td style="background-color: #fafafa; text-align: center;"><h4>이름</h4></td>
-                            <td> ${name}</td>
+                            <td id="name"></td>
                         </tr>
                         <tr>
                             <td style="background-color: #fafafa; text-align: center;"><h4>닉네임</h4></td>
-                            <td> ${nickname} </td>
+                            <td id="nickname"></td>
                         </tr>
                         <tr>
                             <td style="background-color: #fafafa; text-align: center;"><h4>성별</h4></td>
-                            <td>
-                                ${gender}
-                            </td>
+                            <td id="gender"> </td>
                         </tr>
                         <tr>
                             <td style="background-color: #fafafa; text-align: center;"><h4>이메일</h4></td>
-                            <td> ${email} </td>
+                            <td id="email"></td>
                         </tr>
                     </tbody>
                 </table>
         <div>
-            <button class="btn btn-primary pull-right" style="margin-left: 10px;" onclick="getMain()" type="button">취소</button>
-            <button id="registerUserButton" class="btn btn-primary pull-right" onclick="registerUser()" type="button" >회원가입</button>
+            <button class="btn btn-primary pull-right" style="margin-left: 10px;" onclick="deleteMember()" type="button">회원탈퇴</button>
+            <button id="registerUserButton" class="btn btn-primary pull-right" onclick="window.location.href='/member/update'" type="button" >회원수정</button>
         </div>
     </div>
-</body>
+</body>ㅌ
 </html>

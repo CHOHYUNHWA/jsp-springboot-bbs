@@ -15,6 +15,7 @@ import study.jspspringbootbbs.security.jwt.JwtTokenizer;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -61,14 +62,14 @@ public class CustomVerificationFilter extends OncePerRequestFilter {
         Long id = ((Number) claims.get("id")).longValue();
         String username = (String) claims.get("username");
         Collection<GrantedAuthority> collect = new ArrayList<>();
-        collect.add((GrantedAuthority) claims.get("role"));
+        collect.add(new SimpleGrantedAuthority((String) claims.get("role")));
         String role = (String) claims.get("role");
         Member member = Member.builder()
                 .id(id)
                 .username(username)
                 .role(role)
                 .build();
-        Authentication authentication = new UsernamePasswordAuthenticationToken(member, null,collect);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(member, null, collect);
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }

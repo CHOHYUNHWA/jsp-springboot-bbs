@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import study.jspspringbootbbs.domain.member.entity.Gender;
 import study.jspspringbootbbs.domain.member.entity.Member;
 
 @Data
@@ -15,17 +16,15 @@ public class MyPageResponseDto {
     public String username;
     public String name;
     public String nickname;
-    public String gender;
+    public Gender gender;
     public String email;
 
 
-    public MyPageResponseDto memberToMyPageResponseDto(Member member){
-        return MyPageResponseDto.builder()
-                .username(member.getUsername())
-                .name(member.getName())
-                .nickname(member.getNickname())
-                .gender(member.getGender().toString())
-                .email(member.getEmail())
-                .build();
+    public MyPageResponseDto(Member member) {
+        this.username = member.getUsername();
+        this.name = member.getName();
+        this.nickname = member.getNickname();
+        this.gender = member.getGender();
+        this.email = member.getEmail();
     }
 }

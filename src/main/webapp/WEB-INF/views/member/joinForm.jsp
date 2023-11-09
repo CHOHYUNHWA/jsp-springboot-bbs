@@ -9,6 +9,7 @@
 <title>SpringBoot JSP 게시판</title>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="/js/bootstrap.js"></script>
+<script src="../global/global.js"></script>
 <script>
 
 const userNameRegex = /^[a-zA-Z0-9]{4,12}$/;
@@ -16,6 +17,7 @@ const passwordRegex = /^[a-zA-Z0-9]{8,20}$/;
 const nameRegex = /^[가-힣]+$/;
 const nicknameRegex = /^[A-Za-z]{4,20}$/;
 const emailRegex =  /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+
 
 function checkUsername(username){
     if(!userNameRegex.test(username)){

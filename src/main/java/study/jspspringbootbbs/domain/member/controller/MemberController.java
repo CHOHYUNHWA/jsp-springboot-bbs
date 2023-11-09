@@ -7,9 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import study.jspspringbootbbs.domain.member.dto.MemberJoinRequestDto;
-import study.jspspringbootbbs.domain.member.dto.MyPageResponseDto;
-import study.jspspringbootbbs.domain.member.dto.UsernameJoinDuplicateCheckDto;
+import study.jspspringbootbbs.domain.member.dto.*;
 import study.jspspringbootbbs.domain.member.entity.Member;
 import study.jspspringbootbbs.domain.member.service.MemberService;
 
@@ -40,8 +38,28 @@ public class MemberController {
     public ResponseEntity<MyPageResponseDto> getMyPage(@AuthenticationPrincipal Member member){
         String username = member.getUsername();
         Member findMember = memberService.getMyPage(username);
-        MyPageResponseDto myPageResponseDto = new MyPageResponseDto();
-        myPageResponseDto.memberToMyPageResponseDto(member);
+        MyPageResponseDto myPageResponseDto = new MyPageResponseDto(findMember);
+        log.info(myPageResponseDto.getUsername());
         return new ResponseEntity<>(myPageResponseDto, HttpStatus.OK);
+    }
+
+    @DeleteMapping
+    public boolean deleteMember(@AuthenticationPrincipal Member member){
+        memberService.deleteMember(member.getUsername());
+        return true;
+    }
+
+    @PostMapping("/verifyPassword")
+    public boolean verifyPassword(@AuthenticationPrincipal Member member,
+                                  @RequestBody VerifyPasswordRequestDto verifyPasswordRequestDto){
+
+        return memberService.verifyPassword(member, verifyPasswordRequestDto);
+    }
+
+    @PatchMapping
+    public boolean updateMember(@AuthenticationPrincipal Member member,
+                                @RequestBody MemberUpdateRequestDto memberUpdateRequestDto){
+        memberService.updateMember(member,memberUpdateRequestDto);
+        return true;
     }
 }

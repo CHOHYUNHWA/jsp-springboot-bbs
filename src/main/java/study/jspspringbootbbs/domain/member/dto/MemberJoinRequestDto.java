@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import study.jspspringbootbbs.domain.member.entity.Gender;
 import study.jspspringbootbbs.domain.member.entity.Member;
 import study.jspspringbootbbs.domain.member.entity.Role;
 
@@ -17,6 +18,7 @@ public class MemberJoinRequestDto {
     private String password;
     private String name;
     private String nickname;
+    private Gender gender;
     private String email;
 
     public Member toEntity(MemberJoinRequestDto memberJoinRequestDto){
@@ -25,6 +27,7 @@ public class MemberJoinRequestDto {
                 .password(memberJoinRequestDto.getPassword())
                 .name(memberJoinRequestDto.getName())
                 .nickname(memberJoinRequestDto.getNickname())
+                .gender(memberJoinRequestDto.gender)
                 .email(memberJoinRequestDto.getEmail())
                 .role(Role.USER.getKey())
                 .build();

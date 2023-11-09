@@ -15,11 +15,12 @@
         window.location.href="/member/join"
     }
 
-    function setCookie(name, value, exp) {
-      var date = new Date();
-      date.setTime(date.getTime() + exp * 60 * 1000);
-      document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
-    }
+    function setTokenAndExpiration(token, expiration) {
+  var currentTime = new Date().getTime();
+  var expirationTime = currentTime + expiration * 1000; 
+  localStorage.setItem('accessToken', token);
+  localStorage.setItem('accessTokenExpiration', expirationTime);
+}
 
 
     const userNameRegex = /^[a-zA-Z0-9]{4,12}$/;
@@ -65,7 +66,7 @@ function login() {
             success: function(data, status, xhr){
                 alert('로그인에 성공하였습니다.')
                 const accessToken = xhr.getResponseHeader("Authorization");
-                setCookie("accessToken", accessToken, 1);
+                setTokenAndExpiration(accessToken, 300000);
 
                 window.location.href="/";
             },

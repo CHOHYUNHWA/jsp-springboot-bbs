@@ -38,4 +38,8 @@ public class Member extends BaseTimeEntity {
     public void encodePassword(String encodedPassword){
         this.password = encodedPassword;
     }
+
+    public void updateInfo(String nickname) {
+        this.nickname = nickname;
+    }
 }
