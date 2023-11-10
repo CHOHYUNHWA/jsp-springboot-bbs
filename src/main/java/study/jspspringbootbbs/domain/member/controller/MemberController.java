@@ -22,7 +22,6 @@ public class MemberController {
 
     @PostMapping
     public boolean memberJoin(@RequestBody MemberJoinRequestDto memberJoinRequestDto){
-        log.info("username ={}" , memberJoinRequestDto.getUsername());
         Member member = memberJoinRequestDto.toEntity(memberJoinRequestDto);
         memberService.join(member);
         return true;
@@ -39,7 +38,6 @@ public class MemberController {
         String username = member.getUsername();
         Member findMember = memberService.getMyPage(username);
         MyPageResponseDto myPageResponseDto = new MyPageResponseDto(findMember);
-        log.info(myPageResponseDto.getUsername());
         return new ResponseEntity<>(myPageResponseDto, HttpStatus.OK);
     }
 
@@ -52,7 +50,6 @@ public class MemberController {
     @PostMapping("/verifyPassword")
     public boolean verifyPassword(@AuthenticationPrincipal Member member,
                                   @RequestBody VerifyPasswordRequestDto verifyPasswordRequestDto){
-
         return memberService.verifyPassword(member, verifyPasswordRequestDto);
     }
 

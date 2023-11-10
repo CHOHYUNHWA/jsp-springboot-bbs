@@ -18,6 +18,10 @@
         window.location.href = '/';
     }
 
+    function isNavActive(){
+        return window.location.pathname.startsWith('/post');
+    }
+
 </script>
 </head>
 <body>
@@ -31,11 +35,11 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="active">
+                <li id="mainMenu">
                     <a href="/">메인</a>
                 </li>
-                <li>
-                    <a href="/postList">게시판</a>
+                <li id="postMenu">
+                    <a href="/post/list">게시판</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -60,17 +64,24 @@
 
 
           const accessToken = getTokenAndCheckExpiration();
-                      if (accessToken!=null) {
-                          // accessToken이 존재할 때 실행할 코드
+          if (accessToken!=null) {
+              // accessToken이 존재할 때 실행할 코드
 
-                          $("#joinMenuItem").hide(); // 회원가입 메뉴 숨김
-                          $("#loginMenuItem").hide(); // 회원가입 메뉴 숨김
-                          $(".dropdown-toggle").html("회원관리<span class='caret'></span>");
-                      } else {
-                           $("#mypageItem").hide(); // 회원가입 메뉴 숨김
-                           $("#logoutMenuItem").hide(); // 회원가입 메뉴 숨김
-                           $(".dropdown-toggle").html("접속하기<span class='caret'></span>");
-                      }
+              $("#joinMenuItem").hide(); // 회원가입 메뉴 숨김
+              $("#loginMenuItem").hide(); // 회원가입 메뉴 숨김
+              $(".dropdown-toggle").html("회원관리<span class='caret'></span>");
+          } else {
+               $("#mypageItem").hide(); // 회원가입 메뉴 숨김
+               $("#logoutMenuItem").hide(); // 회원가입 메뉴 숨김
+               $(".dropdown-toggle").html("접속하기<span class='caret'></span>");
+          }
+
+          if(isNavActive()){
+               $("#postMenu").addClass("active");
+          } else {
+               $("#mainMenu").addClass("active");
+          }
+
       });
 
   </script>
