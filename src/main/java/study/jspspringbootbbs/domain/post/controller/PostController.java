@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import study.jspspringbootbbs.domain.member.entity.Member;
 import study.jspspringbootbbs.domain.post.dto.GetPostResponseDto;
 import study.jspspringbootbbs.domain.post.dto.PostCreateRequestDto;
+import study.jspspringbootbbs.domain.post.dto.PostUpdateRequestDto;
 import study.jspspringbootbbs.domain.post.entity.Post;
 import study.jspspringbootbbs.domain.post.service.PostService;
 
@@ -36,12 +37,17 @@ public class PostController {
     }
 
     @PatchMapping("/{postId}")
-    public boolean updatePost(){
+    public boolean updatePost(@PathVariable("postId") Long postId,
+                              @AuthenticationPrincipal Member member,
+                              @RequestBody PostUpdateRequestDto postUpdateRequestDto){
+        postService.updatePost(member,postId, postUpdateRequestDto);
         return true;
     }
 
     @DeleteMapping("/{postId}")
-    public boolean deletePost(){
+    public boolean deletePost(@PathVariable("postId") Long postId,
+                              @AuthenticationPrincipal Member member){
+        postService.deletePost(postId, member.getId());
         return true;
     }
 }

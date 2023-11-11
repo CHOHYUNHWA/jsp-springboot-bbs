@@ -4,7 +4,8 @@ import lombok.Getter;
 
 public enum ExceptionCode {
 
-    USERNAME_EXISTS(400, "Username already exists");
+    USERNAME_EXISTS(400, "Username already exists"),
+    POST_NOT_FOUND(404, "Post not Found" );
 
 
     @Getter

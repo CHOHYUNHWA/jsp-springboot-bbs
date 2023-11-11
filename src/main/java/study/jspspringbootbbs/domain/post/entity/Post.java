@@ -26,4 +26,8 @@ public class Post extends BaseTimeEntity {
     @JoinColumn
     private Member member;
 
+    public void updatePost(String title, String body){
+        this.title = title;
+        this.body = body;
+    }
 }
