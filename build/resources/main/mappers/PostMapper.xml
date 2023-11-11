@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="study.jspspringbootbbs.domain.post.repository.PostMapper">
+
+    <sql id="postColumns">
+        title,
+        body,
+        view_count,
+        created_date,
+        last_modified_date,
+        member_id
+    </sql>
+
+    <select id="selectPostByPostIdAndMemberId" resultType="study.jspspringbootbbs.domain.post.entity.Post">
+        SELECT
+        *
+        FROM
+        POST
+        WHERE id = #{postId} AND member_id = #{memberId}
+    </select>
+
+    <select id="selectPostById" resultType="study.jspspringbootbbs.domain.post.entity.Post">
+        SELECT
+        *
+        FROM
+        POST
+        WHERE id = #{postId}
+    </select>
+
+    <select id="selectById" resultType="study.jspspringbootbbs.domain.post.dto.GetPostResponseDto">
+        SELECT
+        p.id,
+        p.title,
+        p.body,
+        p.view_count,
+        p.created_date,
+        p.last_modified_date,
+        m.name AS writer
+        FROM POST p
+        LEFT JOIN Member m ON p.member_id = m.id
+        WHERE p.id = #{postId}
+    </select>
+
+    <insert id="insertPost" parameterType="java.util.Map">
+        INSERT INTO POST(
+        title,
+        body,
+        view_count,
+        created_date,
+        last_modified_date,
+        member_id
+        ) VALUES (
+        #{post.title},
+        #{post.body},
+        0,
+        NOW(),
+        NULL,
+        #{member.id}
+        )
+    </insert>
+
+    <update  id="updateViewCount" parameterType="Long">
+        UPDATE POST
+        SET view_count = view_count + 1
+        WHERE id = #{postId}
+    </update>
+
+    <update id="updatePost" parameterType="java.util.Map">
+        UPDATE POST
+        SET title = #{post.title}, body = #{post.body}
+        WHERE id = #{postId}
+
+    </update>
+
+    <delete id="deletePost">
+        DELETE FROM POST WHERE id = #{postId} AND member_id = #{memberId}
+    </delete>
+
+    <select id="selectPostList">
+
+    </select>
+
+    <select id="selectPostTotalCount">
+
+    </select>
+</mapper>
