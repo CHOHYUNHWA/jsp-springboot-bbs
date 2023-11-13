@@ -78,11 +78,25 @@
         DELETE FROM POST WHERE id = #{postId} AND member_id = #{memberId}
     </delete>
 
-    <select id="selectPostList">
-
+    <select id="selectPostList" resultType="study.jspspringbootbbs.domain.post.dto.GetPostResponseDto">
+        SELECT
+        p.id,
+        p.title,
+        p.body,
+        p.view_count,
+        p.created_date,
+        p.last_modified_date,
+        m.name AS writer
+        FROM POST p
+        LEFT JOIN Member m ON p.member_id = m.id
+        ORDER BY created_date DESC
+        LIMIT #{limit}
+        OFFSET #{offset}
     </select>
 
-    <select id="selectPostTotalCount">
-
+    <select id="selectPostTotalCount" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM POST p
+        LEFT JOIN Member m ON p.member_id = m.id
     </select>
 </mapper>

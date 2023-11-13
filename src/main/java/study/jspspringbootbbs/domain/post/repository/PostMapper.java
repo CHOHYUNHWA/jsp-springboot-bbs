@@ -26,7 +26,7 @@ public interface PostMapper {
 
     public int deletePost(Long postId, Long memberId);
 
-    public List<GetPostResponseDto> selectPostList();
+    public List<GetPostResponseDto> selectPostList(int offset, int limit);
 
     public int selectPostTotalCount();
 
