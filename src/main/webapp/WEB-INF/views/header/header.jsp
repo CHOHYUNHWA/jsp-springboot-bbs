@@ -9,8 +9,10 @@
 <title>SpringBoot JSP 게시판</title>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="/js/bootstrap.js"></script>
-<script src="../global/global.js"></script>
+<script src="../../../global/global.js"></script>
 <script>
+
+const accessToken = localStorage.getItem('accessToken');
 
     function logout(){
         localStorage.removeItem('accessToken');
